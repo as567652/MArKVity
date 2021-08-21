@@ -50,7 +50,10 @@
   }
 }
 
+
+
 table{
+  text-align: center;
   width: 100%;
   border-color: black;
   border-style:solid;
@@ -65,8 +68,4 @@ th {
 td {
   padding: 10px;
   border-collapse: collapse;
-}
-
-div table{
-  border-top: 0;
 }

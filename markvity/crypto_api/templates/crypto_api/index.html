@@ -20,11 +20,30 @@
             <button data-page="page2">Switch Page</button>
         </div>
         <div id="page2">
-            <button id="trending">Trending</button>
-            <button id="search">Search</button>
-            <button id="all">All</button>
-            <button id="calculate">Calculate</button>
-            <div id="content"></div>
+            <button id="trending_b">Trending</button>
+            <button id="search_b">Search</button>
+            <button id="all_b">All</button>
+            <button id="calculate_b">Calculate</button>
+
+            <div id="trend">
+                <h1>Trending Crypto</h1>
+                <table id = "trending_table"></table>
+            </div>
+            <div id="search">
+                <h1>Search</h1>
+                <form id="search_form">
+                    <input type="text" placeholder="Enter Your Crypto Name" id = 'searched_value'>
+                    <input type="submit">
+                </form>
+                <h2>Search Result :- </h2>
+                <table id = "search_table"></table>
+            </div>
+            <div id="all">
+
+            </div>
+            <div id="calculate">
+
+            </div>
         </div>
     </body>
 </html>
