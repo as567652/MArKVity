@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     load_trending();
 
-    submit_button = document.querySelector('#submit');
+    submit_button = document.querySelector('#search_submit');
     submit_button.disabled = true;  
     document.querySelector('#search_form').onkeyup = () => {
         if (document.querySelector('#searched_value').value.length == 0){
@@ -83,14 +83,49 @@ document.addEventListener('DOMContentLoaded', function() {
         fetchWithRetry(`http://api.coincap.io/v2/assets?search=${search_keywd}`, 10).then(function (json) {
         data = json;
             console.log(data);
-            if (data.data.length == 0){
-
-            }
-            else{
+            if (data.data.length != 0){
                 addTable(data, 'search_table', true);
             }
             document.querySelector('#searched_value').value = ""
             submit_button.disabled = true;
+        })
+        .catch(function (err) {
+            console.log(`There was a problem with the fetch operation: ${err.message}`);
+        })
+        return false
+    }
+    c_submit_button = document.querySelector('#calculate_submit');
+    c_submit_button.disabled = true;  
+    document.querySelector('#calculate_form').onkeyup = () => {
+        if (document.querySelector('#crypto_form').value.length == 0 && document.querySelector('#cash_form').value.length == 0){
+            c_submit_button.disabled = true;
+        }
+        else{
+            c_submit_button.disabled = false;
+        }    
+    }
+    document.querySelector('#calculate_form').onsubmit = function() {
+        var regExp = /\(([^)]+)\)/;
+        var matches = regExp.exec(document.querySelector('#crypto_form').value);
+
+        var cryp
+        var ans
+        var cash = document.querySelector('#cash_form').value
+
+        fetchWithRetry(`http://api.coincap.io/v2/assets?search=${matches[1]}`, 10).then(function (json) {
+            data = json;
+            cryp = Math.abs(data.data[0].priceUsd).toFixed(2)
+            fetch(`https://api.frankfurter.app/latest?amount=${cryp}&from=USD&to=${cash}`)
+            .then(response => {
+                return response.json()
+            })
+            .then(rates => {
+                for(var key in rates.rates) {
+                    ans = rates.rates[key];
+                    document.querySelector('#calculate_result').innerHTML = `
+                    <h3>1 ${data.data[0].symbol} = ${ans} ${cash}</h3>`;
+                }
+            })
         })
         .catch(function (err) {
             console.log(`There was a problem with the fetch operation: ${err.message}`);
@@ -147,13 +182,41 @@ function load_all(){
 
 function load_calculate(){
     starting = 1;
-
+    let crypto_names = []
+    let curr_names = []
     document.querySelector(`#trend`).style.display = 'none';
     document.querySelector(`#search`).style.display = 'none';
     document.querySelector(`#all`).style.display = 'none';
     document.querySelector(`#calculate`).style.display = 'block';
 
-    document.querySelector('#content').innerHTML = '<h1>Calculate Value</h1>';
+
+    fetchWithRetry(`http://api.coincap.io/v2/assets?limit=2000`, 10).then(function (json) {
+        data = json;
+        for (let i = 0; i < 2000; i++){
+            crypto_names[i] = data.data[i].name + ' (' + data.data[i].symbol + ')';
+        }
+        for (let i = 0; i < 2000; i++){
+            let tmp = document.createElement('option')
+            tmp.value = crypto_names[i];
+            document.querySelector('#cryp_l').append(tmp);
+        }
+    })
+    .catch(function (err) {
+        console.log(`There was a problem with the fetch operation: ${err.message}`);
+    })
+
+    fetch('https://api.frankfurter.app/latest?base=USD')
+    .then(response => {
+        return response.json()
+    })
+    .then(rates => {
+        curr_names = Object.keys(rates.rates)
+        for (let i = 0; i < 32; i++){
+            let tmp = document.createElement('option')
+            tmp.value = curr_names[i];
+            document.querySelector('#cash_l').append(tmp);
+        }
+    })
 }
 
 function fetchWithRetry(url, retryLimit, retryCount) {

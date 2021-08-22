@@ -33,7 +33,7 @@
                 <h1>Search</h1>
                 <form id="search_form">
                     <input type="text" placeholder="Enter Your Crypto Name" id = 'searched_value'>
-                    <input id="submit" type="submit">
+                    <input id="search_submit" type="submit">
                 </form>
                 <h2>Search Result :- </h2>
                 <table id = "search_table"></table>
@@ -52,8 +52,20 @@
                 </table>
             </div>
             <div id="calculate">
-
-            </div>
+                <h2>Crypto To Cash Currency</h2>
+                <form id="calculate_form">
+                    <input list="cryp" placeholder="Crypto Name" id="crypto_form">
+                    <datalist id="cryp">
+                        <div id="cryp_l"></div>
+                    </datalist>
+                    <input list="cash" placeholder="Cash Currency Name" id="cash_form">
+                    <datalist id="cash">
+                        <div id="cash_l"></div>
+                    </datalist>
+                    <input type="submit" id="calculate_submit">    
+                </form>
+                <div id="calculate_result"></div>
+            </div>  
         </div>
         <div id="popup">
             <div id="content">
