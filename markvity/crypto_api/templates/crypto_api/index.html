@@ -7,29 +7,102 @@
         <link rel="stylesheet" href="{% static 'crypto_api/style/style.css' %}">
     </head>
     <body>
-        <div class="header">
-            <a href="#default" class="logo">MarKVity</a>
+        <div class="header" id="top">
+            <img src="/static/crypto_api/images/Markvityy.png" id="logo" title="MarKVity">
             <div class="header-right">
-                <button data-page="page1">Home</button>
-                <button id="contact">Contact Us</button>
-                <button id="about">About</button>
+                <div id="container">
+                    <div class="button" id="button_responsive">
+                      <div id="translate"></div>
+                      <a id="go_to_home_page">Home</a>
+                    </div>
+                    <div class="button" id="button_responsive">
+                        <div id="translate"></div>
+                        <a id="go_to_trending_page">Trending</a>
+                    </div>
+                    <div class="button" id="button_responsive">
+                        <div id="translate"></div>
+                        <a id="go_to_search_page">Search</a>
+                    </div>
+                    <div class="button" id="button_responsive">
+                        <div id="translate"></div>
+                        <a id="go_to_all_page">All Crypto</a>
+                    </div>
+                    <div class="button" id="button_responsive">
+                        <div id="translate"></div>
+                        <a id="go_to_calculate_page">Calculate</a>
+                    </div>
+                    <div class="button" id="button_responsive">
+                        <div id="translate"></div>
+                        <a id="go_to_home_page" href="#footer">About</a>
+                    </div>
+                </div>
             </div>
         </div>
-        <div id="page1">
-            <h1>Page 1</h1>
-            <button data-page="page2">Switch Page</button>
+        <hr>
+        <div id="page1" class="main_class">
+            <div id="pg1_header">
+                <p><img src="/static/crypto_api/images/Markvity.png" title="MarKVity" id="full_logo">
+                    <strong style="color: red;">Q. What is cryptocurrency?</strong>
+                    <p>A. Cryptocurrency is a form of payment that can be exchanged online for goods and services. Many companies have issued their own currencies, often called tokens, and these can be traded specifically for the good or service that the company provides. Think of them as you would arcade tokens or casino chips.</p>
+                    <br><strong style="color: red;">Q. Why are cryptocurrencies so popular?</strong>
+                    <p>
+                        <ul>
+                            <li>Cryptocurrency removes central banks from managing the money supply, since over time these banks tend to reduce the value of money via inflation</li>
+                            <li>The technology behind cryptocurrencies, the blockchain, is a decentralized processing and recording system and can be more secure than traditional payment systems</li>
+                        </ul>
+                    </p>
+                    <strong style="color: red;">Q. How MarKVitY helps you??</strong>
+                    <p>A. <strong>MarKVitY</strong> helps you to keep track of crypto market. This site keeps up to date as the market changes constantly. Even our currency converter system relies on up to date currency rates.</p>
+                </p>
+            </div>
+            <div class="parallax0"></div>
+            <div>
+                <h1>Portion 1</h1>
+                <div id="container">
+                    <div class="button" id="button_responsive" style="width: 250px;">
+                      <div id="translate"></div>
+                      <a id="go_to_trending_page">See What's Trending</a>
+                    </div>
+                </div>
+            </div>
+            <div class="parallax1"></div>
+            <div>
+                <h1>Portion 2</h1>
+                <div id="container">
+                    <div class="button" id="button_responsive" style="width: 240px;">
+                      <div id="translate"></div>
+                      <a id="go_to_search_page">Search Your Crypto</a>
+                    </div>
+                </div>    
+            </div>
+            <div class="parallax2"></div>
+            <div>
+                <h1>Portion 3</h1>
+                <div id="container">
+                    <div class="button" id="button_responsive" style="width: 240px;">
+                      <div id="translate"></div>
+                      <a id="go_to_all_page">List All Crypto</a>
+                    </div>
+                </div>    
+            </div>
+            <div class="parallax3"></div>
+            <div>
+                <h1>Portion 4</h1>
+                <div id="container">
+                    <div class="button" id="button_responsive" style="width: 240px;">
+                      <div id="translate"></div>
+                      <a id="go_to_calculate_page">Calculate Your Crypto Value</a>
+                    </div>
+                </div>    
+            </div>
         </div>
-        <div id="page2">
-            <button id="trending_b">Trending</button>
-            <button id="search_b">Search</button>
-            <button id="all_b">All</button>
-            <button id="calculate_b">Calculate</button>
 
-            <div id="trend">
+        <div id="page2" class="main_class">
+            <div id="trend" class="main_class">
                 <h1>Trending Crypto</h1>
                 <table id = "trending_table"></table>
             </div>
-            <div id="search">
+            <div id="search" class="main_class">
                 <h1>Search</h1>
                 <form id="search_form">
                     <input type="text" placeholder="Enter Your Crypto Name" id = 'searched_value'>
@@ -38,7 +111,7 @@
                 <h2>Search Result :- </h2>
                 <table id = "search_table"></table>
             </div>
-            <div id="all">
+            <div id="all" class="main_class">
                 <h1>All Crypto</h1>
                 <table id = "all_table">
                     <tr>
@@ -51,7 +124,7 @@
                     </tr>
                 </table>
             </div>
-            <div id="calculate">
+            <div id="calculate" class="main_class">
                 <h2>Crypto To Cash Currency</h2>
                 <form id="calculate_form">
                     <input list="cryp" placeholder="Crypto Name" id="crypto_form">
@@ -76,6 +149,18 @@
               <div id="popup_foot">
               </div>
             </div>
-          </div>
+        </div>
+        <div id="footer">
+            <div class="button" id="button_responsive">
+                <div id="translate"></div>
+                <a href="#top">Go On Top</a>
+            </div>
+        </div>
+        <!--<div id="container">
+            <div class="button" id="button_responsive">
+              <div id="translate"></div>
+              <a href="#">Let's Go!</a>
+            </div>-->
+        </div>
     </body>
 </html>

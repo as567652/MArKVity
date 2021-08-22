@@ -1,73 +1,25 @@
 let starting = 1;
 let count = 20;
 
-function show_page(page){
-    if (page == 'page1'){
-        document.querySelector(`#page1`).style.display = 'block';
+function show_div(name){
+    document.querySelectorAll('.main_class').forEach(div => {
+        div.style.display = 'none';
+    })
+    if (name === 'page1'){
+        document.querySelector(`#footer`).style.display = 'block';
         document.querySelector(`#page2`).style.display = 'none';
+        document.querySelector(`#page1`).style.display = 'block';
     }
-    else if (page == 'page2'){
+    else {
+        document.querySelector(`#footer`).style.display = 'none';
         document.querySelector(`#page2`).style.display = 'block';
         document.querySelector(`#page1`).style.display = 'none';
     }
+    document.querySelector(`#${name}`).style.display = 'block';
 }
 
-document.addEventListener('click', event => {
-    const element = event.target;
-    if (element.id === 'more_info') {
-        const val = element.dataset.button_id
-        fetchWithRetry(`http://api.coincap.io/v2/assets?search=${val}`, 10).then(function (json) {
-            data = json;
-            document.querySelector("#popup").style.display = "block";
-            document.querySelector("#popup_header").innerHTML = `
-                <span id="close">&times;</span>
-                <h2>${data.data[0].name}</h2>`
-            document.querySelector("#popup_body").innerHTML = `
-            <h3>Rank :- </h3><p>${data.data[0].rank}</p>
-            <h3>Symbol :- </h3><p>${data.data[0].symbol}</p>
-            <h3>Name :- </h3><p>${data.data[0].name}</p>
-            <h3>Availaible Supply :- </h3><p>${data.data[0].supply}</p>
-            <h3>Total Quantity Of Asset Issued) :- </h3> <p>${data.data[0].maxSupply}</p>
-            <h3>MarketCap :- </h3><p>${data.data[0].marketCapUsd}</p>
-            <h3>Volume Last 24Hr :- </h3><p>${data.data[0].volumeUsd24Hr}</p>
-            <h3>Price :- </h3><p>${data.data[0].priceUsd}</p>
-            <h3>Change Percent In Last 24Hr :- </h3><p>${data.data[0].changePercent24Hr}</p>
-            <h3>Volume Weighted Average Price in the last 24 hours :- </h3><p>${data.data[0].vwap24Hr}</p>
-            `
-        })
-        .catch(function (err) {
-            console.log(`There was a problem with the fetch operation: ${err.message}`);
-        })
-    }
-    else if(element.id === 'close'){
-        document.querySelector("#popup").style.display = "none";
-    }
-    else if(element.id === 'popup'){
-        document.querySelector("#popup").style.display = "none";
-    }
-});
-
-
 document.addEventListener('DOMContentLoaded', function() {
-    document.querySelector('#page2').style.display = 'none';
-    document.querySelector(`#trend`).style.display = 'none';
-    document.querySelector(`#search`).style.display = 'none';
-    document.querySelector(`#all`).style.display = 'none';
-    document.querySelector(`#calculate`).style.display = 'none';
-
-    document.querySelectorAll('button').forEach(button => {
-        button.onclick = function() {
-            show_page(this.dataset.page);
-        }
-    })
-
-    document.querySelector('#trending_b').addEventListener('click', () => load_trending());
-    document.querySelector('#search_b').addEventListener('click', () => load_search());
-    document.querySelector('#all_b').addEventListener('click', () => load_all());
-    document.querySelector('#calculate_b').addEventListener('click', () => load_calculate());
-
-    load_trending();
-
+    show_div('page1');
     submit_button = document.querySelector('#search_submit');
     submit_button.disabled = true;  
     document.querySelector('#search_form').onkeyup = () => {
@@ -133,6 +85,67 @@ document.addEventListener('DOMContentLoaded', function() {
         return false
     }
 })
+
+
+document.addEventListener('click', event => {
+    const element = event.target;
+    if (element.id === 'more_info') {
+        const val = element.dataset.button_id
+        fetchWithRetry(`http://api.coincap.io/v2/assets?search=${val}`, 10).then(function (json) {
+            data = json;
+            document.querySelector("#popup").style.display = "block";
+            document.querySelector("#popup_header").innerHTML = `
+                <span id="close">&times;</span>
+                <h2>${data.data[0].name}</h2>`
+            document.querySelector("#popup_body").innerHTML = `
+            <h3>Rank :- </h3><p>${data.data[0].rank}</p>
+            <h3>Symbol :- </h3><p>${data.data[0].symbol}</p>
+            <h3>Name :- </h3><p>${data.data[0].name}</p>
+            <h3>Availaible Supply :- </h3><p>${data.data[0].supply}</p>
+            <h3>Total Quantity Of Asset Issued) :- </h3> <p>${data.data[0].maxSupply}</p>
+            <h3>MarketCap :- </h3><p>${data.data[0].marketCapUsd}</p>
+            <h3>Volume Last 24Hr :- </h3><p>${data.data[0].volumeUsd24Hr}</p>
+            <h3>Price :- </h3><p>${data.data[0].priceUsd}</p>
+            <h3>Change Percent In Last 24Hr :- </h3><p>${data.data[0].changePercent24Hr}</p>
+            <h3>Volume Weighted Average Price in the last 24 hours :- </h3><p>${data.data[0].vwap24Hr}</p>
+            `
+        })
+        .catch(function (err) {
+            console.log(`There was a problem with the fetch operation: ${err.message}`);
+        })
+    }
+    else if(element.id === 'close'){
+        document.querySelector("#popup").style.display = "none";
+    }
+    else if(element.id === 'popup'){
+        document.querySelector("#popup").style.display = "none";
+    }
+    else if (element.id === 'go_to_home_page'){
+        show_div('page1')
+        load_trending()
+        window.scrollTo(0, 0);
+    }
+    else if (element.id === 'go_to_trending_page'){
+        show_div('trend')
+        load_trending()
+        window.scrollTo(0, 0);
+    }
+    else if (element.id === 'go_to_search_page'){
+        show_div('search')
+        load_search()
+        window.scrollTo(0, 0);
+    }
+    else if (element.id === 'go_to_all_page'){
+        show_div('all')
+        load_all()
+        window.scrollTo(0, 0);
+    }
+    else if (element.id === 'go_to_calculate_page'){
+        show_div('calculate')
+        load_calculate()
+        window.scrollTo(0, 0);
+    }
+});
 
 
 function load_trending(){
