@@ -99,33 +99,100 @@
 
         <div id="page2" class="main_class">
             <div id="trend" class="main_class">
-                <h1>Trending Crypto</h1>
-                <table id = "trending_table"></table>
+                <div class="grid-container">
+                    <div class="grid-item">
+                        <h1 style="margin-left: 1%; display: flex;"><i>Now Trending Crypto . . . .</i></h1>
+                    </div>
+                    <div class="grid-item">
+                        <div id="loader" class="loader">
+                            <div id="clock-loader"></div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <table id = "trending_table">
+                    <thead>
+                        <tr>
+                            <th class="table_rank">Rank</th>
+                            <th class="table_name">Name</th>
+                            <th class="table_sym">Symbol</th>
+                            <th class="table_pric">Price</th>
+                            <th class="table_cap">Market Cap</th>
+                            <th class="table_option">Options</th>
+                        </tr>
+                    </thead>
+                    <tbody><tr></tr></tbody>
+                </table>
             </div>
             <div id="search" class="main_class">
-                <h1>Search</h1>
+                <div class="grid-container">
+                    <div class="grid-item">
+                        <h1>Search</h1>
+                    </div>
+                    <div class="grid-item">
+                        <div id="loader" class="loader">
+                            <div id="clock-loader"></div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
                 <form id="search_form">
                     <input type="text" placeholder="Enter Your Crypto Name" id = 'searched_value'>
                     <input id="search_submit" type="submit">
                 </form>
                 <h2>Search Result :- </h2>
-                <table id = "search_table"></table>
+                <table id = "search_table">
+                    <thead>
+                        <tr>
+                            <th class="table_rank">Rank</th>
+                            <th class="table_name">Name</th>
+                            <th class="table_sym">Symbol</th>
+                            <th class="table_pric">Price</th>
+                            <th class="table_cap">Market Cap</th>
+                            <th class="table_option">Options</th>
+                        </tr>
+                    </thead>
+                    <tbody><tr></tr></tbody>
+                </table>
             </div>
             <div id="all" class="main_class">
-                <h1>All Crypto</h1>
+                <div class="grid-container">
+                    <div class="grid-item">
+                        <h1>All Crypto</h1>
+                    </div>
+                    <div class="grid-item">
+                        <div id="loader" class="loader">
+                            <div id="clock-loader"></div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
                 <table id = "all_table">
-                    <tr>
-                        <th>Rank</th>
-                        <th>Name</th>
-                        <th>Symbol</th>
-                        <th>Price</th>
-                        <th>Market Cap</th>
-                        <th>Options</th>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th class="table_rank">Rank</th>
+                            <th class="table_name">Name</th>
+                            <th class="table_sym">Symbol</th>
+                            <th class="table_pric">Price</th>
+                            <th class="table_cap">Market Cap</th>
+                            <th class="table_option">Options</th>
+                        </tr>
+                    </thead>
+                    <tbody><tr></tr></tbody>
                 </table>
             </div>
             <div id="calculate" class="main_class">
-                <h2>Crypto To Cash Currency</h2>
+                <div class="grid-container">
+                    <div class="grid-item">
+                        <h2>Crypto To Cash Currency</h2>
+                    </div>
+                    <div class="grid-item">
+                        <div id="loader" class="loader">
+                            <div id="clock-loader"></div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
                 <form id="calculate_form">
                     <input list="cryp" placeholder="Crypto Name" id="crypto_form">
                     <datalist id="cryp">

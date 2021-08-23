@@ -1,5 +1,25 @@
 let starting = 1;
 let count = 20;
+search_init = false
+
+function remove_table_content(id){
+    var tabl = document.getElementById(id);
+    let L = tabl.querySelectorAll('tr').length
+    for (let i = L - 1; i > 0; i--){
+        tabl.deleteRow(i);
+    }
+}
+
+function start_loader(idd){
+    parent = document.getElementById(idd);
+    child = parent.querySelectorAll('.loader')[0];
+    child.style.display = "block";
+}
+function stop_loader(idd){
+    parent = document.getElementById(idd);
+    child = parent.querySelectorAll('.loader')[0];
+    child.style.display = "none";
+}
 
 function show_div(name){
     document.querySelectorAll('.main_class').forEach(div => {
@@ -30,7 +50,12 @@ document.addEventListener('DOMContentLoaded', function() {
             submit_button.disabled = false;
         }    
     }
+
     document.querySelector('#search_form').onsubmit = function() {
+        search_init = true
+        if (search_init == true){
+            start_loader('search');
+        }
         const search_keywd = document.querySelector('#searched_value').value;
         fetchWithRetry(`http://api.coincap.io/v2/assets?search=${search_keywd}`, 10).then(function (json) {
         data = json;
@@ -40,6 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             document.querySelector('#searched_value').value = ""
             submit_button.disabled = true;
+            stop_loader('search');
         })
         .catch(function (err) {
             console.log(`There was a problem with the fetch operation: ${err.message}`);
@@ -63,7 +89,10 @@ document.addEventListener('DOMContentLoaded', function() {
         var cryp
         var ans
         var cash = document.querySelector('#cash_form').value
-
+        search_init = true
+        if (search_init == true){
+            start_loader('calculate');
+        }
         fetchWithRetry(`http://api.coincap.io/v2/assets?search=${matches[1]}`, 10).then(function (json) {
             data = json;
             cryp = Math.abs(data.data[0].priceUsd).toFixed(2)
@@ -78,6 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <h3>1 ${data.data[0].symbol} = ${ans} ${cash}</h3>`;
                 }
             })
+            stop_loader('calculate')
         })
         .catch(function (err) {
             console.log(`There was a problem with the fetch operation: ${err.message}`);
@@ -136,8 +166,9 @@ document.addEventListener('click', event => {
         window.scrollTo(0, 0);
     }
     else if (element.id === 'go_to_all_page'){
+        remove_table_content('all_table')
         show_div('all')
-        load_all()
+        load_all(starting)
         window.scrollTo(0, 0);
     }
     else if (element.id === 'go_to_calculate_page'){
@@ -149,8 +180,9 @@ document.addEventListener('click', event => {
 
 
 function load_trending(){
+    remove_table_content('trending_table')
     starting = 1;
-
+    start_loader('trend')
     document.querySelector(`#trend`).style.display = 'block';
     document.querySelector(`#search`).style.display = 'none';
     document.querySelector(`#all`).style.display = 'none';
@@ -159,6 +191,7 @@ function load_trending(){
     fetchWithRetry('http://api.coincap.io/v2/assets?limit=10', 10).then(function (json) {
         data = json;
         addTable(data, 'trending_table', true);
+        stop_loader('trend')
     })
     .catch(function (err) {
         console.log(`There was a problem with the fetch operation: ${err.message}`);
@@ -166,13 +199,16 @@ function load_trending(){
 }
 
 function load_search(){
+    remove_table_content('search_table')
+    search_init = false
     document.querySelector(`#trend`).style.display = 'none';
     document.querySelector(`#search`).style.display = 'block';
     document.querySelector(`#all`).style.display = 'none';
     document.querySelector(`#calculate`).style.display = 'none';
 }
 
-function load_all(){
+function load_all(starting){
+    start_loader('all')
     document.querySelector(`#trend`).style.display = 'none';
     document.querySelector(`#search`).style.display = 'none';
     document.querySelector(`#all`).style.display = 'block';
@@ -184,9 +220,10 @@ function load_all(){
         starting += count;
         window.onscroll = () => {
             if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-                load_all();
+                load_all(starting);
             }
         };
+        stop_loader('all')
     })
     .catch(function (err) {
         console.log(`There was a problem with the fetch operation: ${err.message}`);
@@ -194,6 +231,7 @@ function load_all(){
 }
 
 function load_calculate(){
+    search_init = true
     starting = 1;
     let crypto_names = []
     let curr_names = []
@@ -262,18 +300,7 @@ function addTable(data, id, empty){
     var tabl = document.getElementById(id);
     const l = document.getElementsByTagName('tr').length;
     
-    if (empty == true || starting == 1){
-        tabl.innerHTML = `
-        <tr>
-            <th>Rank</th>
-            <th>Name</th>
-            <th>Symbol</th>
-            <th>Price</th>
-            <th>Market Cap</th>
-            <th>Options</th>
-        </tr>
-        `;    
-    }
+
     for (let i = 0; i < data.data.length; i++){
 
         const num1 = convertToInternationalCurrencySystem(Math.round(data.data[i].priceUsd*10000)/10000);
@@ -289,6 +316,12 @@ function addTable(data, id, empty){
         }
 
         var cell = row.insertCell(5);
-        cell.innerHTML = `<button data-button_id = ${data.data[i].id} id = "more_info">More Info</button>`;
+        cell.innerHTML = `
+            <div id="container">
+                <div class="button" id="button_responsive">
+                <div id="translate"></div>
+                <a data-button_id = ${data.data[i].id} id = "more_info">More Info</a>
+            </div>
+        `;
     }
 }

@@ -1,5 +1,6 @@
 html {
   scroll-behavior: smooth;
+  overflow-y : scroll;
 }
 
 body {
@@ -154,4 +155,106 @@ p {
 #full_logo {
   float: right;
   width: 30%;
+}
+
+#trend{
+  align-content: center;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+table th {
+  border-style: solid;
+  border-color: white;
+  border-right: 0;
+  border-left: 0;
+  height: 75px;
+  font-size: x-large;
+  font-weight: bolder;
+  font-style: italic;
+  color: rgb(218, 56, 35);
+  background-color: white;
+}
+
+table td {
+  text-align: center;
+  border-style: solid;
+  border-color: white;
+  border-top: 0;
+  border-right: 0;
+  border-left: 0;
+}
+
+th.table_rank {
+  width: 10%;
+}
+th.table_name {
+  width: 20%;
+}
+th.table_sym {
+  width: 20%;
+}
+th.table_pric, th.table_cap{
+  width: 15%;
+}
+th.table_option {
+  width: 20%;
+}
+
+#loader {
+    display: none;
+    align-content:flex-end;
+}
+#clock-loader {
+  --clock-color: white;
+  --clock-width: 4rem;
+  --clock-radius: calc(var(--clock-width) / 2);
+  --clock-minute-length: calc(var(--clock-width) * 0.4);
+  --clock-hour-length: calc(var(--clock-width) * 0.2);
+  --clock-thickness: 0.2rem;
+
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--clock-width);
+  height: var(--clock-width);
+  border: 3px solid var(--clock-color);
+  border-radius: 50%;
+}
+#clock-loader::before, #clock-loader::after {
+  position: absolute;
+  content: "";
+  top: calc(var(--clock-radius) * 0.25);
+  width: var(--clock-thickness);
+  background: var(--clock-color);
+  border-radius: 10px;
+  transform-origin: center calc(100% - calc(var(--clock-thickness) / 2));
+  animation: spin infinite linear;
+}
+
+#clock-loader::before {
+  height: var(--clock-minute-length);
+  animation-duration: 2s;
+}
+
+#clock-loader::after {
+  top: calc(var(--clock-radius) * 0.25 + var(--clock-hour-length));
+  height: var(--clock-hour-length);
+  animation-duration: 15s;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 93% auto;
+  padding: 10px;
 }
