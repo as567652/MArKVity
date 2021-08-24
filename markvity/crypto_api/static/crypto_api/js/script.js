@@ -123,21 +123,24 @@ document.addEventListener('click', event => {
         const val = element.dataset.button_id
         fetchWithRetry(`http://api.coincap.io/v2/assets?search=${val}`, 10).then(function (json) {
             data = json;
+            tmp = document.getElementById('content');
+            tmp.classList.remove('animate_reverse');
+            tmp.classList.add('animate_forward');
             document.querySelector("#popup").style.display = "block";
             document.querySelector("#popup_header").innerHTML = `
                 <span id="close">&times;</span>
-                <h2>${data.data[0].name}</h2>`
+                <h1 class="page_header"><i>${data.data[0].name}</i></h1>`
             document.querySelector("#popup_body").innerHTML = `
-            <h3>Rank :- </h3><p>${data.data[0].rank}</p>
-            <h3>Symbol :- </h3><p>${data.data[0].symbol}</p>
-            <h3>Name :- </h3><p>${data.data[0].name}</p>
-            <h3>Availaible Supply :- </h3><p>${data.data[0].supply}</p>
-            <h3>Total Quantity Of Asset Issued) :- </h3> <p>${data.data[0].maxSupply}</p>
-            <h3>MarketCap :- </h3><p>${data.data[0].marketCapUsd}</p>
-            <h3>Volume Last 24Hr :- </h3><p>${data.data[0].volumeUsd24Hr}</p>
-            <h3>Price :- </h3><p>${data.data[0].priceUsd}</p>
-            <h3>Change Percent In Last 24Hr :- </h3><p>${data.data[0].changePercent24Hr}</p>
-            <h3>Volume Weighted Average Price in the last 24 hours :- </h3><p>${data.data[0].vwap24Hr}</p>
+            <h3>Rank :- ${data.data[0].rank}</h3>
+            <h3>Symbol :- ${data.data[0].symbol}</h3>
+            <h3>Name :- ${data.data[0].name}</h3>
+            <h3>Availaible Supply :- ${data.data[0].supply}</h3>
+            <h3>Total Quantity Of Asset Issued) :- ${data.data[0].maxSupply}</h3>
+            <h3>MarketCap :- ${data.data[0].marketCapUsd}</h3>
+            <h3>Volume Last 24Hr :- ${data.data[0].volumeUsd24Hr}</h3>
+            <h3>Price :- ${data.data[0].priceUsd}</h3>
+            <h3>Change Percent In Last 24Hr :- ${data.data[0].changePercent24Hr}</h3>
+            <h3>Volume Weighted Average Price in the last 24 hours :- ${data.data[0].vwap24Hr}</h3>
             `
         })
         .catch(function (err) {
@@ -145,7 +148,10 @@ document.addEventListener('click', event => {
         })
     }
     else if(element.id === 'close'){
-        document.querySelector("#popup").style.display = "none";
+        tmp = document.getElementById('content');
+        tmp.classList.remove('animate_forward');
+        tmp.classList.add('animate_reverse');
+        setTimeout(function() {document.querySelector("#popup").style.display = "none";}, 800);
     }
     else if(element.id === 'popup'){
         document.querySelector("#popup").style.display = "none";
