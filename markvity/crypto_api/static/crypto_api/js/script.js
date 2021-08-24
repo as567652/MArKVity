@@ -2,17 +2,20 @@ let starting = 1;
 let count = 20;
 search_init = false
 let current_page_id = 'page1'
+let continue_load = true
 
 function show_msg_on_table(){
     parent = document.getElementById(current_page_id)
     child = parent.querySelectorAll('#extra_content')[0];
-    if (current_page_id != 'search'){
-        child.innerHTML = "Please wait while we load data for you : )"
-    }
-    else{
+    if (current_page_id == 'search'){
         child.innerHTML = "Your search result will appear here : )"
     }
-
+    else if (current_page_id == 'calculate'){
+        child.innerHTML = "Your conversion will appear here : )"
+    }
+    else{
+        child.innerHTML = "Please wait while we load data for you : )"
+    }
 }
 
 function hide_msg_on_table(){
@@ -62,8 +65,10 @@ document.addEventListener('DOMContentLoaded', function() {
     show_div('page1');
 
     window.onscroll = () => {
-        if (window.innerHeight + window.scrollY >= document.body.offsetHeight && current_page_id == 'all') {
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight && current_page_id == 'all' && continue_load == true) {
             load_all();
+            continue_load = false
+            setTimeout(function() {continue_load = true;}, 1000);
         }
     };
 
@@ -117,6 +122,8 @@ document.addEventListener('DOMContentLoaded', function() {
         var ans
         var cash = document.querySelector('#cash_form').value
         search_init = true
+        document.querySelector('#crypto_form').value = ""
+        document.querySelector('#cash_form').value = ""
         if (search_init == true){
             start_loader('calculate');
         }
@@ -129,6 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(rates => {
                 for(var key in rates.rates) {
+                    hide_msg_on_table()
                     ans = rates.rates[key];
                     document.querySelector('#calculate_result').innerHTML = `
                     <h3>1 ${data.data[0].symbol} = ${ans} ${cash}</h3>`;
@@ -206,6 +214,7 @@ document.addEventListener('click', event => {
         window.scrollTo(0, 0);
     }
     else if (element.id === 'go_to_calculate_page'){
+        document.querySelector('#calculate_result').innerHTML = ""
         show_div('calculate')
         load_calculate()
         window.scrollTo(0, 0);
@@ -263,6 +272,7 @@ function load_all(){
 }
 
 function load_calculate(){
+    show_msg_on_table()
     search_init = true
     starting = 1;
     let crypto_names = []
