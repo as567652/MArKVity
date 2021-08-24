@@ -1,6 +1,25 @@
 let starting = 1;
 let count = 20;
 search_init = false
+let current_page_id = 'page1'
+
+function show_msg_on_table(){
+    parent = document.getElementById(current_page_id)
+    child = parent.querySelectorAll('#extra_content')[0];
+    if (current_page_id != 'search'){
+        child.innerHTML = "Please wait while we load data for you : )"
+    }
+    else{
+        child.innerHTML = "Your search result will appear here : )"
+    }
+
+}
+
+function hide_msg_on_table(){
+    parent = document.getElementById(current_page_id)
+    child = parent.querySelectorAll('#extra_content')[0];
+    child.innerHTML = ""
+}
 
 function remove_table_content(id){
     var tabl = document.getElementById(id);
@@ -22,6 +41,7 @@ function stop_loader(idd){
 }
 
 function show_div(name){
+    current_page_id = name
     document.querySelectorAll('.main_class').forEach(div => {
         div.style.display = 'none';
     })
@@ -40,6 +60,13 @@ function show_div(name){
 
 document.addEventListener('DOMContentLoaded', function() {
     show_div('page1');
+
+    window.onscroll = () => {
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight && current_page_id == 'all') {
+            load_all();
+        }
+    };
+
     submit_button = document.querySelector('#search_submit');
     submit_button.disabled = true;  
     document.querySelector('#search_form').onkeyup = () => {
@@ -173,8 +200,9 @@ document.addEventListener('click', event => {
     }
     else if (element.id === 'go_to_all_page'){
         remove_table_content('all_table')
+        starting = 1
         show_div('all')
-        load_all(starting)
+        load_all()
         window.scrollTo(0, 0);
     }
     else if (element.id === 'go_to_calculate_page'){
@@ -189,6 +217,7 @@ function load_trending(){
     remove_table_content('trending_table')
     starting = 1;
     start_loader('trend')
+    show_msg_on_table()
     document.querySelector(`#trend`).style.display = 'block';
     document.querySelector(`#search`).style.display = 'none';
     document.querySelector(`#all`).style.display = 'none';
@@ -207,28 +236,25 @@ function load_trending(){
 function load_search(){
     remove_table_content('search_table')
     search_init = false
+    show_msg_on_table()
     document.querySelector(`#trend`).style.display = 'none';
     document.querySelector(`#search`).style.display = 'block';
     document.querySelector(`#all`).style.display = 'none';
     document.querySelector(`#calculate`).style.display = 'none';
 }
 
-function load_all(starting){
+function load_all(){
     start_loader('all')
+    show_msg_on_table();
     document.querySelector(`#trend`).style.display = 'none';
     document.querySelector(`#search`).style.display = 'none';
     document.querySelector(`#all`).style.display = 'block';
     document.querySelector(`#calculate`).style.display = 'none';
-
+    console.log(starting)
     fetchWithRetry(`http://api.coincap.io/v2/assets?limit=${count}&offset=${starting - 1}`, 10).then(function (json) {
         data = json;
         addTable(data, 'all_table', false);
         starting += count;
-        window.onscroll = () => {
-            if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-                load_all(starting);
-            }
-        };
         stop_loader('all')
     })
     .catch(function (err) {
@@ -303,6 +329,7 @@ function convertToInternationalCurrencySystem (labelValue) {
 }
 
 function addTable(data, id, empty){
+    hide_msg_on_table()
     var tabl = document.getElementById(id);
     const l = document.getElementsByTagName('tr').length;
     
