@@ -165,17 +165,55 @@ document.addEventListener('click', event => {
             document.querySelector("#popup_header").innerHTML = `
                 <span id="close">&times;</span>
                 <h1 class="page_header"><i>${data.data[0].name}</i></h1>`
+            var num = parseInt(parseFloat(data.data[0].changePercent24Hr) * 100) / 100;
             document.querySelector("#popup_body").innerHTML = `
-            <h3>Rank :- ${data.data[0].rank}</h3>
-            <h3>Symbol :- ${data.data[0].symbol}</h3>
-            <h3>Name :- ${data.data[0].name}</h3>
-            <h3>Availaible Supply :- ${data.data[0].supply}</h3>
-            <h3>Total Quantity Of Asset Issued) :- ${data.data[0].maxSupply}</h3>
-            <h3>MarketCap :- ${data.data[0].marketCapUsd}</h3>
-            <h3>Volume Last 24Hr :- ${data.data[0].volumeUsd24Hr}</h3>
-            <h3>Price :- ${data.data[0].priceUsd}</h3>
-            <h3>Change Percent In Last 24Hr :- ${data.data[0].changePercent24Hr}</h3>
-            <h3>Volume Weighted Average Price in the last 24 hours :- ${data.data[0].vwap24Hr}</h3>
+            <div id = "popup_table">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>Global Rank (Market Cap)</td>
+                            <td>${data.data[0].rank}</td>
+                        </tr>
+                        <tr>
+                            <td>Symbol Used</td>
+                            <td>${data.data[0].symbol}</td>
+                        </tr>
+                        <tr>
+                            <td>Price (Based on real-time market data)</td>
+                            <td>$ ${convertToInternationalCurrencySystem(data.data[0].priceUsd)}</td>
+                        </tr>
+                        <tr>
+                            <td>Available supply for trading</td>
+                            <td>${convertToInternationalCurrencySystem(data.data[0].supply)} units</td>
+                        </tr>
+                        <tr>
+                            <td>Total Quantity Of Asset Issued</td>
+                            <td>${convertToInternationalCurrencySystem(data.data[0].maxSupply)} units</td>
+                        </tr>
+                        <tr>
+                            <td>Market Cap (supply x price)</td>
+                            <td>$ ${convertToInternationalCurrencySystem(data.data[0].marketCapUsd)}</td>
+                        </tr>
+                        <tr>
+                            <td>Quantity of trading volume represented in USD over the last 24 hours</td>
+                            <td>$ ${convertToInternationalCurrencySystem(data.data[0].volumeUsd24Hr)}</td>
+                        </tr>
+                        <tr>
+                            <td>Change Percent In Last 24Hr</td>
+                            <td>${num} %</td>
+                        </tr>
+                        <tr>
+                            <td>Volume Weighted Average Price in the last 24 hours</td>
+                            <td>$ ${convertToInternationalCurrencySystem(data.data[0].vwap24Hr)}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>    
+            `
+            document.querySelector('#popup_foot').innerHTML = `
+                <div id = "ppp">
+                    Based On Data provided by <a target =  '_blank' href = "https://docs.coincap.io/">CoinCap</a> API
+                </div>
             `
         })
         .catch(function (err) {
@@ -328,14 +366,14 @@ function fetchWithRetry(url, retryLimit, retryCount) {
 function convertToInternationalCurrencySystem (labelValue) {
     // Nine Zeroes for Billions
     return Math.abs(Number(labelValue)) >= 1.0e+9
-    ? (Math.abs(Number(labelValue)) / 1.0e+9).toFixed(2) + "B"
+    ? (Math.abs(Number(labelValue)) / 1.0e+9).toFixed(2) + " Bn"
     // Six Zeroes for Millions 
     : Math.abs(Number(labelValue)) >= 1.0e+6
-    ? (Math.abs(Number(labelValue)) / 1.0e+6).toFixed(2) + "M"
+    ? (Math.abs(Number(labelValue)) / 1.0e+6).toFixed(2) + " Mn"
     // Three Zeroes for Thousands
-    : Math.abs(Number(labelValue)) >= 1.0e+3
-    ? (Math.abs(Number(labelValue)) / 1.0e+3).toFixed(2) + "K"
-    : Math.abs(Number(labelValue));
+    //: Math.abs(Number(labelValue)) >= 1.0e+3
+    //? (Math.abs(Number(labelValue)) / 1.0e+3).toFixed(2) + "K"
+    : parseInt(Number(labelValue) * 1000) / 1000;
 }
 
 function addTable(data, id, empty){
@@ -349,7 +387,7 @@ function addTable(data, id, empty){
         const num1 = convertToInternationalCurrencySystem(Math.round(data.data[i].priceUsd*10000)/10000);
         const num2 = convertToInternationalCurrencySystem(data.data[i].marketCapUsd);
 
-        let arr = [data.data[i].rank, data.data[i].name, data.data[i].symbol, num1 + `$`, num2 + `$`];
+        let arr = [data.data[i].rank, data.data[i].name, data.data[i].symbol, `$ ` + num1, `$ ` + num2 ];
 
         var row = tabl.insertRow(-1);
         for (let j = 0; j < arr.length; j++){
