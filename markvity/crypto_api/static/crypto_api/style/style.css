@@ -392,7 +392,11 @@ input[type=submit] {
   cursor: pointer;
 }
 
-input[type=submit]:hover {
+input[type=submit]:disabled {
+  background-color: rgb(219, 106, 91);
+}
+
+input[type=submit]:enabled:hover {
   background-color: white;
   color: black;
 }

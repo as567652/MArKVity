@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
     c_submit_button = document.querySelector('#calculate_submit');
     c_submit_button.disabled = true;  
     document.querySelector('#calculate_form').onkeyup = () => {
-        if (document.querySelector('#crypto_form').value.length == 0 && document.querySelector('#cash_form').value.length == 0){
+        if (document.querySelector('#crypto_form').value.length == 0 || document.querySelector('#cash_form').value.length == 0){
             c_submit_button.disabled = true;
         }
         else{
@@ -124,6 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
         search_init = true
         document.querySelector('#crypto_form').value = ""
         document.querySelector('#cash_form').value = ""
+        c_submit_button.disabled = true;  
         if (search_init == true){
             start_loader('calculate');
         }
@@ -256,6 +257,13 @@ document.addEventListener('click', event => {
         show_div('calculate')
         load_calculate()
         window.scrollTo(0, 0);
+    }
+    else if (element.id === 'go_to_top'){
+        window.scrollTo(0, 0)
+    }
+    else if (element.id === 'go_to_bottom'){
+        show_div('page1')
+        window.scrollTo(0,document.body.scrollHeight)
     }
 });
 
