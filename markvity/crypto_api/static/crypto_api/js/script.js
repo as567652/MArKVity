@@ -70,9 +70,21 @@ function show_div(name){
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+
+    document.querySelector('#go_up').onclick = function(){
+        window.scrollTo(0, 0)
+    }
+
     show_div('page1');
 
     window.onscroll = () => {
+        if (window.scrollY < window.innerHeight){
+            document.querySelector('#go_up').style.display = 'none';
+        }
+        else{
+            document.querySelector('#go_up').style.display = 'block';
+        }
+
         if (window.innerHeight + window.scrollY >= document.body.offsetHeight && current_page_id == 'all' && continue_load == true) {
             load_all();
             continue_load = false

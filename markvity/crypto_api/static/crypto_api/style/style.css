@@ -412,3 +412,30 @@ form{
 #conversion {
   margin-top: 50px;
 }
+
+.sticky {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+}
+
+.sticky button {
+  display: none;
+  z-index: 2;
+  font-size: larger;
+  border: 2px;
+  border-style: solid;
+  border-color: white;
+  width: 80px;
+  height: 80px;
+  border-radius: 100%;
+  color: white;
+  background-color: rgb(218, 56, 35);
+}
+.sticky button:hover {
+  cursor: pointer;
+  border-color: rgb(218, 56, 35);
+  border-radius: 100%;
+  color: black;
+  background-color: white
+}
