@@ -4,20 +4,6 @@ search_init = false
 let current_page_id = 'page1'
 let continue_load = true
 
-function show_msg_on_table(){
-    parent = document.getElementById(current_page_id)
-    child = parent.querySelectorAll('#extra_content')[0];
-    if (current_page_id == 'search'){
-        child.innerHTML = "Your search result will appear here : )"
-    }
-    else if (current_page_id == 'calculate'){
-        child.innerHTML = "Your conversion will appear here : )"
-    }
-    else{
-        child.innerHTML = "Please wait while we load data for you : )"
-    }
-}
-
 function hide_msg_on_table(){
     parent = document.getElementById(current_page_id)
     child = parent.querySelectorAll('#extra_content')[0];
@@ -29,6 +15,28 @@ function remove_table_content(id){
     let L = tabl.querySelectorAll('tr').length
     for (let i = L - 1; i > 0; i--){
         tabl.deleteRow(i);
+    }
+}
+
+
+function show_msg_on_table(s = 'good'){
+    parent = document.getElementById(current_page_id)
+    child = parent.querySelectorAll('#extra_content')[0];
+
+    if (s === 'good'){
+        if (current_page_id == 'search'){
+            child.innerHTML = "Your search result will appear here : )"
+        }
+        else if (current_page_id == 'calculate'){
+            child.innerHTML = "Your conversion will appear here : )"
+        }
+        else{
+            child.innerHTML = "Please wait while we load data for you : )"
+        }
+    }
+    else{
+        hide_msg_on_table()
+        child.innerHTML = "Not able to find : ("
     }
 }
 
@@ -91,9 +99,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const search_keywd = document.querySelector('#searched_value').value;
         fetchWithRetry(`http://api.coincap.io/v2/assets?search=${search_keywd}`, 10).then(function (json) {
         data = json;
-            console.log(data);
             if (data.data.length != 0){
                 addTable(data, 'search_table', true);
+            }
+            else {
+                remove_table_content('search_table')
+                show_msg_on_table('error')
             }
             document.querySelector('#searched_value').value = ""
             submit_button.disabled = true;
@@ -116,11 +127,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     document.querySelector('#calculate_form').onsubmit = function() {
         var regExp = /\(([^)]+)\)/;
-        var matches = regExp.exec(document.querySelector('#crypto_form').value);
+        var name = document.querySelector('#crypto_form').value
+        var matches = regExp.exec(name);
 
         var cryp
         var ans
-        var cash = document.querySelector('#cash_form').value
+        let cash = document.querySelector('#cash_form').value
+        cash = cash.toUpperCase()
         search_init = true
         document.querySelector('#crypto_form').value = ""
         document.querySelector('#cash_form').value = ""
@@ -128,25 +141,52 @@ document.addEventListener('DOMContentLoaded', function() {
         if (search_init == true){
             start_loader('calculate');
         }
-        fetchWithRetry(`http://api.coincap.io/v2/assets?search=${matches[1]}`, 10).then(function (json) {
+        fetchWithRetry(`http://api.coincap.io/v2/assets?search=${matches[1]}`, 10)
+        .then(function (json) {
             data = json;
             cryp = Math.abs(data.data[0].priceUsd).toFixed(2)
-            fetch(`https://api.frankfurter.app/latest?amount=${cryp}&from=USD&to=${cash}`)
-            .then(response => {
-                return response.json()
-            })
-            .then(rates => {
-                for(var key in rates.rates) {
-                    hide_msg_on_table()
-                    ans = rates.rates[key];
-                    document.querySelector('#calculate_result').innerHTML = `
-                    <h3>1 ${data.data[0].symbol} = ${ans} ${cash}</h3>`;
-                }
-            })
+            if (cash === 'USD'){
+                hide_msg_on_table()
+                document.querySelector('#calculate_result').innerHTML = `
+                <h1 id = 'conversion'>1 ${data.data[0].symbol} = ${cryp} ${cash}</h1>
+                <div id="container">
+                    <div class="button" id="button_responsive" style = "text-align: center; width:fit-content; padding: 0 10px 0 10px;">
+                    <div id="translate"></div>
+                    <a data-button_id = ${data.data[0].id} id = "more_info">Know More About ${name}</a>
+                </div>
+                <hr>
+                `;
+            }
+            else{
+                fetch(`https://api.frankfurter.app/latest?amount=${cryp}&from=USD&to=${cash}`)
+                .then(response => {
+                    return response.json()
+                })
+                .then(rates => {
+                    for(var key in rates.rates) {
+                        hide_msg_on_table()
+                        ans = rates.rates[key];
+                        document.querySelector('#calculate_result').innerHTML = `
+                        <h1 id = 'conversion'>1 ${data.data[0].symbol} = ${ans} ${cash}</h1>
+                        <div id="container">
+                            <div class="button" id="button_responsive" style = "text-align: center; width:fit-content; padding: 0 10px 0 10px;">
+                            <div id="translate"></div>
+                            <a data-button_id = ${data.data[0].id} id = "more_info">Know More About ${name}</a>
+                        </div>
+                        <hr>
+                        `;
+                    }
+                })
+                .catch(function (error) {
+                    show_msg_on_table('error')
+                    console.log(`There was a problem with the fetch operation: ${error.message}`);
+                })
+            }
             stop_loader('calculate')
         })
-        .catch(function (err) {
-            console.log(`There was a problem with the fetch operation: ${err.message}`);
+        .catch((error) => {
+            show_msg_on_table('error')
+            console.log(`There was a problem with the fetch operation: ${error}`);
         })
         return false
     }
@@ -156,12 +196,14 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('click', event => {
     const element = event.target;
     if (element.id === 'more_info') {
+        start_loader(current_page_id)
         const val = element.dataset.button_id
         fetchWithRetry(`http://api.coincap.io/v2/assets?search=${val}`, 10).then(function (json) {
             data = json;
             tmp = document.getElementById('content');
             tmp.classList.remove('animate_reverse');
             tmp.classList.add('animate_forward');
+            stop_loader(current_page_id)
             document.querySelector("#popup").style.display = "block";
             document.querySelector("#popup_header").innerHTML = `
                 <span id="close">&times;</span>
@@ -361,14 +403,22 @@ function load_calculate(){
 function fetchWithRetry(url, retryLimit, retryCount) {
     retryLimit = retryLimit || Number.MAX_VALUE;
     retryCount = Math.max(retryCount || 0, 0);
-    return fetch(url).then(function (res) {
-        console.log(res.status);
+    return fetch(url)
+    .then(function (res) {
         if (res.status !== 200 && retryCount < retryLimit) {
+            // if (res.status === 404){
+            //     console.log(res)
+            // }
             console.log("There was an error processing your fetch request. We are trying again.");
             return fetchWithRetry(url, retryLimit, retryCount + 1);
-        } else {
+        } 
+        else {
             return res.json();
         }
+    })
+    .catch((error) => {
+        show_msg_on_table('error');
+        console.log(`There was a problem with the fetch operation: ${error}`);
     });
 }
 function convertToInternationalCurrencySystem (labelValue) {
@@ -386,6 +436,9 @@ function convertToInternationalCurrencySystem (labelValue) {
 
 function addTable(data, id, empty){
     hide_msg_on_table()
+    if (id != 'all_table'){
+        remove_table_content(id)
+    }
     var tabl = document.getElementById(id);
     const l = document.getElementsByTagName('tr').length;
     

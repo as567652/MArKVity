@@ -330,7 +330,7 @@ th.table_option {
 }
 #popup_body {
   padding: 20px;
-  background-color: black;
+  background-color: white;
 }
 #popup_foot {
   border-style: double;
@@ -403,4 +403,12 @@ input[type=submit]:enabled:hover {
 
 form{
   text-align: center;
+}
+
+#calculate_result {
+  text-align: center;
+}
+
+#conversion {
+  margin-top: 50px;
 }
