@@ -92,7 +92,7 @@ body {
   height:fit-content;
   margin: auto;
   text-align: center;
-  background-color:white;
+  background-color:rgb(233, 227, 227);
   font-size:36px;
   top: 0;
 }
@@ -241,7 +241,7 @@ th.table_option {
   content: "";
   top: calc(var(--clock-radius) * 0.25);
   width: var(--clock-thickness);
-  background: var(--clock-color);
+  background: rgb(218, 56, 35);
   border-radius: 10px;
   transform-origin: center calc(100% - calc(var(--clock-thickness) / 2));
   animation: spin infinite linear;
@@ -450,4 +450,34 @@ form{
   border-radius: 100%;
   color: black;
   background-color: white
+}
+
+.dodo {
+  display: grid;
+  grid-template-areas:
+    'l ru ru ru'
+    'l rd rd rd';
+  grid-gap: 10px;
+  padding: 10px;
+}
+
+.odod {
+  display: grid;
+  grid-template-areas:
+    'ru ru ru l'
+    'rd rd rd l';
+  grid-gap: 10px;
+  padding: 10px;
+}
+
+.item1 { grid-area: l; }
+.item2 { grid-area: ru; }
+.item3 { grid-area: rd; }
+
+.dodo h1, .odod h1 {
+  background-image: linear-gradient(to left, red, rgb(218, 56, 35), black);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-style: italic;
 }
