@@ -6,7 +6,7 @@ html {
 body {
   background-color: black;
   color: white;
-  font-family: sans-serif;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 #logo {
   width: 20%;
@@ -136,6 +136,18 @@ body {
   border-style: solid;
   margin: 15px;
   border-color: rgb(218, 56, 35);
+}
+
+#footer .grid-container {
+  display: grid;
+  grid-template-columns: 336px 200px 400px auto;
+  padding: 10px;
+}
+
+#my_img{
+  width: 250px;
+  border-radius: 100%;
+  border: white solid;
 }
 
 #pg1_header {
