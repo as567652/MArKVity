@@ -6,7 +6,7 @@ html {
 body {
   background-color: black;
   color: white;
-  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family: Helvetica, sans-serif;
 }
 #logo {
   width: 20%;
@@ -64,7 +64,6 @@ body {
 }
 #button_responsive a {
   font: caption;
-  font-family: sans-serif;
   position: relative;
   transition: all .45s ease-Out;
   text-decoration: none;
@@ -88,11 +87,11 @@ body {
 }
 
 #page1 {
-  color: black;
+  color: white;
   height:fit-content;
   margin: auto;
   text-align: center;
-  background-color:rgb(233, 227, 227);
+  background-color:black;
   font-size:36px;
   top: 0;
 }
@@ -161,7 +160,6 @@ body {
 
 p {
   margin-bottom: 0;
-  font-family: sans-serif;
 }
 
 #full_logo {
@@ -471,11 +469,14 @@ form{
 }
 
 .item1 { grid-area: l; }
-.item2 { grid-area: ru; }
+.item2 { 
+  grid-area: ru; 
+  font-size: large;
+}
 .item3 { grid-area: rd; }
 
 .dodo h1, .odod h1 {
-  background-image: linear-gradient(to left, red, rgb(218, 56, 35), black);
+  background-image: linear-gradient(to left, rgb(252, 23, 23), rgb(218, 56, 35), white);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
