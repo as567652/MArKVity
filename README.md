@@ -24,7 +24,7 @@ This project is supported by 2 independents and reliable APIs that are :-
 * [Frankfurter](https://www.frankfurter.app/)
 
 
-##Features
+## Features
 * Narly 2000 different cryptos are listed.
 * Interactive and stylized web design for smooth and better user experience.
 * Data shown is fetched on the moment to keep user updated all the time.
@@ -48,11 +48,12 @@ This project is supported by 2 independents and reliable APIs that are :-
 
 ## Setup
 First you must have these softwares and languages installed on your system -
-  * [DB Browser For SQLite : 3.11.2](https://sqlitebrowser.org/dl/)
   * [Python 3](https://www.python.org/)
   * [Django : 3.1.7](https://docs.djangoproject.com/en/3.2/topics/install/)
-  * Chrome Web Browser (latest)
+  * Web Browser
 
+Important Note :- 
+If getting CORS error on loading install [Allow CORS: Access-Control-Allow-Origin Chrome Extension](https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf) or equivalent web extension
 
 ## Launch
 To run this project, run these commands in terminal. Make sure that manage.py file is present in the current directory
