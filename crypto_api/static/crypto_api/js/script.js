@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
             start_loader('search');
         }
         const search_keywd = document.querySelector('#searched_value').value;
-        fetchWithRetry(`http://api.coincap.io/v2/assets?search=${search_keywd}`, 10).then(function (json) {
+        fetchWithRetry(`https://api.coincap.io/v2/assets?search=${search_keywd}`, 10).then(function (json) {
         data = json;
             if (data.data.length != 0){
                 addTable(data, 'search_table', true);
@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (search_init == true){
             start_loader('calculate');
         }
-        fetchWithRetry(`http://api.coincap.io/v2/assets?search=${matches[1]}`, 10)
+        fetchWithRetry(`https://api.coincap.io/v2/assets?search=${matches[1]}`, 10)
         .then(function (json) {
             data = json;
             cryp = Math.abs(data.data[0].priceUsd).toFixed(2)
@@ -210,7 +210,7 @@ document.addEventListener('click', event => {
     if (element.id === 'more_info') {
         start_loader(current_page_id)
         const val = element.dataset.button_id
-        fetchWithRetry(`http://api.coincap.io/v2/assets?search=${val}`, 10).then(function (json) {
+        fetchWithRetry(`https://api.coincap.io/v2/assets?search=${val}`, 10).then(function (json) {
             data = json;
             tmp = document.getElementById('content');
             tmp.classList.remove('animate_reverse');
@@ -332,7 +332,7 @@ function load_trending(){
     document.querySelector(`#all`).style.display = 'none';
     document.querySelector(`#calculate`).style.display = 'none';
 
-    fetchWithRetry('http://api.coincap.io/v2/assets?limit=10', 10).then(function (json) {
+    fetchWithRetry('https://api.coincap.io/v2/assets?limit=10', 10).then(function (json) {
         data = json;
         addTable(data, 'trending_table', true);
         stop_loader('trend')
@@ -360,7 +360,7 @@ function load_all(){
     document.querySelector(`#all`).style.display = 'block';
     document.querySelector(`#calculate`).style.display = 'none';
     console.log(starting)
-    fetchWithRetry(`http://api.coincap.io/v2/assets?limit=${count}&offset=${starting - 1}`, 10).then(function (json) {
+    fetchWithRetry(`https://api.coincap.io/v2/assets?limit=${count}&offset=${starting - 1}`, 10).then(function (json) {
         data = json;
         addTable(data, 'all_table', false);
         starting += count;
@@ -383,7 +383,7 @@ function load_calculate(){
     document.querySelector(`#calculate`).style.display = 'block';
 
 
-    fetchWithRetry(`http://api.coincap.io/v2/assets?limit=2000`, 10).then(function (json) {
+    fetchWithRetry(`https://api.coincap.io/v2/assets?limit=2000`, 10).then(function (json) {
         data = json;
         for (let i = 0; i < 2000; i++){
             crypto_names[i] = data.data[i].name + ' (' + data.data[i].symbol + ')';
