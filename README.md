@@ -75,37 +75,37 @@ Admin panel can be accessed at **http://127.0.0.1:8000/admin** after running the
 
 ### HomePage
 <p align="left">
-  <img src="/markvity/readme_images/page1.png" width=100% title="homepage">
+  <img src="readme_images/page1.png" width=100% title="homepage">
 </p>
 
 ### Trending Page
 <p align="left">
-  <img src="/markvity/readme_images/trending.png" width=100% title="trending">
+  <img src="readme_images/trending.png" width=100% title="trending">
 </p>
 
 ### More Info About A Crypto
 <p align="left">
-  <img src="/markvity/readme_images/more_info.png" width=100% title="more info">
+  <img src="readme_images/more_info.png" width=100% title="more info">
 </p>
 
 ### Search Your Crypro
 <p align="left">
-  <img src="/markvity/readme_images/search.png" width=100% title="search">
+  <img src="readme_images/search.png" width=100% title="search">
 </p>
 
 ### List All Crypto
 <p align="left">
-  <img src="/markvity/readme_images/all.png" width=100% title="all">
+  <img src="readme_images/all.png" width=100% title="all">
 </p>
 
 ### Convert Crypto To Currency Of Your Choice
 <p align="left">
-  <img src="/markvity/readme_images/convert.png" width=100% title="convert">
+  <img src="readme_images/convert.png" width=100% title="convert">
 </p>
 
 ### About Me
 <p align="left">
-  <img src="/markvity/readme_images/about.png" width=100% title="about">
+  <img src="readme_images/about.png" width=100% title="about">
 </p>
 
 
