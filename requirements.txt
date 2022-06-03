@@ -7,7 +7,7 @@ automata-lib==4.0.0.post1
 Babel==2.9.1
 backcall==0.2.0
 bleach==3.3.0
-bottle==0.12.19
+bottle==0.12.20
 cffi==1.14.5
 cycler==0.10.0
 decorator==4.4.2
