@@ -47,7 +47,7 @@ nbformat==5.1.2
 nest-asyncio==1.5.1
 networkx==2.6.2
 notebook==6.4.5
-numpy==1.19.5
+numpy==1.22.0
 opencv-contrib-python==4.5.3.56
 opencv-python==4.5.3.56
 packaging==20.9
